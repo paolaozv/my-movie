@@ -19,7 +19,7 @@ const Pagination = ({ currentPage, totalPages, paginate }) => {
 	}
 
   return (
-    <nav className='mt-40'>
+    <nav className='mt-10 md:mt-40'>
 			<div className="flex justify-center items-center text-white">
 				<button
 					className={`pagination ${currentPage === 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}

@@ -37,7 +37,7 @@ const App = () => {
 
 		try {
 			const endpoint = query
-				? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
+				? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}&page=${currentPage}`
 				: `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${currentPage}`
 			const response = await fetch(endpoint, API_OPTIONS)
 
@@ -56,7 +56,7 @@ const App = () => {
 			setMovieList(data.results || [])
 			setTotalPages(data.total_pages || 0)
 
-			if (query && data.results.length > 0) {
+			if (query && data.results.length > 0 && currentPage === 1) {
 				await updateSearchCount(query, data.results[0])
 			}
 			
@@ -93,7 +93,7 @@ const App = () => {
 				<header>
 					<img src='./hero-img.png' alt='Hero Banner' />
 					<h1>Find <span className='text-gradient'>Movies</span> You'll Enjoy Without the Hassle</h1>
-					<Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+					<Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} setCurrentPage={setCurrentPage} />
 				</header>
 
 				{trendingMovies.length > 0 && (

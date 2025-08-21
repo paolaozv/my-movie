@@ -1,4 +1,9 @@
-const Search = ({ searchTerm, setSearchTerm }) => {
+const Search = ({ searchTerm, setSearchTerm, setCurrentPage }) => {
+  const onChangeTerm = (value) => {
+    setSearchTerm(value)
+    setCurrentPage(1)
+  }
+
   return (
     <div className="search">
       <div>
@@ -7,7 +12,7 @@ const Search = ({ searchTerm, setSearchTerm }) => {
           type="text"
           placeholder="Search through thousands of movies"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => onChangeTerm(e.target.value)}
         />
       </div>
     </div>
