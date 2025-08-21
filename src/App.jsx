@@ -4,6 +4,7 @@ import './App.css'
 import Search from './components/Search'
 import Spinner from './components/Spinner'
 import MovieCard from './components/MovieCard'
+import Pagination from './components/Pagination'
 import { updateSearchCount, getTrendingMovies } from './appwrite'
 
 const API_BASE_URL = 'https://api.themoviedb.org/3'
@@ -20,6 +21,8 @@ const App = () => {
 	const [searchTerm, setSearchTerm] = useState('')
 	const [errorMessage, setErrorMessage] = useState('')
 	const [movieList, setMovieList] = useState([])
+	const [currentPage, setCurrentPage] = useState(1)
+	const [totalPages, setTotalPages] = useState(0)
 	const [isLoading, setIsLoading] = useState(false)
 	const [trendingMovies, setTrendingMovies] = useState([])
 	const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
@@ -35,7 +38,7 @@ const App = () => {
 		try {
 			const endpoint = query
 				? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-				: `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
+				: `${API_BASE_URL}/discover/movie?sort_by=popularity.desc&page=${currentPage}`
 			const response = await fetch(endpoint, API_OPTIONS)
 
 			if (!response.ok) {
@@ -51,6 +54,7 @@ const App = () => {
 			}
 
 			setMovieList(data.results || [])
+			setTotalPages(data.total_pages || 0)
 
 			if (query && data.results.length > 0) {
 				await updateSearchCount(query, data.results[0])
@@ -76,7 +80,7 @@ const App = () => {
 
 	useEffect(() => {
 		fetchMovies(debouncedSearchTerm)
-	}, [debouncedSearchTerm])
+	}, [debouncedSearchTerm, currentPage])
 
 	useEffect(() => {
 		loadTrendingMovies()
@@ -119,6 +123,14 @@ const App = () => {
 							))}
 						</ul>
 					)}
+				</section>
+
+				<section>
+					<Pagination
+						currentPage={currentPage}
+						totalPages={totalPages}
+						paginate={setCurrentPage}
+					/>
 				</section>
 			</div>
     </main>
