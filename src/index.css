@@ -164,3 +164,22 @@
     display: none;
   }
 }
+
+/* modal */
+
+.modal {
+  & .content {
+    @apply bg-gray-900 rounded-2xl shadow-[0px_0px_100px_rgba(171,139,255,0.3),inset_0px_12px_32px_rgba(206,206,251,0.02)] text-white;
+    & img {
+      @apply rounded-lg h-auto w-full;
+    }
+  }
+
+  & .box {
+    @apply px-1 py-1 md:py-2 md:px-4 rounded-sm bg-slate-800;
+  }
+
+  & p {
+    @apply text-xs md:text-base;
+  }
+}

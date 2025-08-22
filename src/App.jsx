@@ -5,6 +5,7 @@ import Search from './components/Search'
 import Spinner from './components/Spinner'
 import MovieCard from './components/MovieCard'
 import Pagination from './components/Pagination'
+import MovieDetails from './components/MovieDetails'
 import { updateSearchCount, getTrendingMovies } from './appwrite'
 
 const API_BASE_URL = 'https://api.themoviedb.org/3'
@@ -26,6 +27,8 @@ const App = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [trendingMovies, setTrendingMovies] = useState([])
 	const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
+	const [openModal, setOpenModal] = useState(false)
+	const [selectedMovie, setSelectedMovie] = useState(null)
 
 	// Debounced the search term to prevent making too many API requests
 	// by waiting for the user to stop typing for 500ms
@@ -78,6 +81,11 @@ const App = () => {
 		}
 	}
 
+	const handleSelectedMovie = (movie) => {
+		setSelectedMovie(movie)
+		setOpenModal(true)
+	}
+
 	useEffect(() => {
 		fetchMovies(debouncedSearchTerm)
 	}, [debouncedSearchTerm, currentPage])
@@ -119,7 +127,7 @@ const App = () => {
 					) : (
 						<ul>
 							{movieList.map((movie) => (
-								<MovieCard key={movie.id} movie={movie} />
+								<MovieCard key={movie.id} movie={movie} handleSelectedMovie={handleSelectedMovie} />
 							))}
 						</ul>
 					)}
@@ -133,6 +141,7 @@ const App = () => {
 					/>
 				</section>
 			</div>
+			<MovieDetails open={openModal} setOpenModal={setOpenModal} movie={selectedMovie} />
     </main>
   )
 }
