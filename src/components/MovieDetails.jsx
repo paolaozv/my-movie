@@ -49,7 +49,7 @@ const MovieModal = ({ open, setOpenModal, movie }) => {
 							<div className='mt-2'>
 								<img src={movie.poster_path ?`https://image.tmdb.org/t/p/w500/${movie.poster_path}` : '/no-movie.png'} alt={movie.title} />
 							</div>
-							<div className="md:flex md:items-center mt-2">
+							<div className="md:flex md:items-center mt-6">
 								<p className="text-indigo-300 mr-3 mb-1 md:mb-0">Overview</p>
 								<p>{movie.overview}</p>
 							</div>
